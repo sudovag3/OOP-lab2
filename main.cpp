@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
+using namespace std;
+
 
 class MyArray
 {
@@ -21,6 +23,29 @@ class MyArray
         for(int i = 0; i < size; i++) {
             arr[i] = ma.arr[i];
         }
+    }
+
+    friend ostream& operator<<(ostream& out, const MyArray& ma)
+    {
+        for (int i = 0; i < ma.size; i++)
+            out << ma.arr[i] << " ";
+        
+        return out;
+    }
+
+    MyArray& operator=(const MyArray& ma)
+    {
+        if (this == &ma)
+            return *this;
+        
+        delete[] arr;
+        size = ma.size;
+        arr = new int[size];
+        
+        for (int i = 0; i < size; i++)
+            arr[i] = ma.arr[i];
+        
+        return *this;
     }
 
     int getSize(){
@@ -52,9 +77,9 @@ class MyArray
 
 void printMyArray(MyArray arr) {
     for(int i = 0; i < arr.getSize(); i++) {
-        std::cout << arr(i) << " ";
+        cout << arr(i) << " ";
     }
-    std::cout << std::endl;
+    cout << std::endl;
 }
 
 // Конструктор копирования необходим в данном случае, чтобы гарантировать, 
@@ -69,12 +94,15 @@ void printMyArray(MyArray arr) {
 int main() {
     MyArray arr1(5);
     arr1.fillWithRandomNumbers(1, 10);
-    std::cout << "arr1: ";
+    cout << "arr1: ";
     printMyArray(arr1);
 
     MyArray arr2 = arr1;
-    std::cout << "arr2: ";
+    cout << "arr2: ";
     printMyArray(arr2);
+
+    cout << "arr1: " << arr1 << endl;
+    cout << "arr2: " << arr2 << endl;
 
     return 0;
 }
